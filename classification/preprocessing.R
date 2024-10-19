@@ -17,17 +17,13 @@ print(paste("Missing Values:", missing_values))
 duplicates <- anyDuplicated(x)
 print(paste("Duplicates:", duplicates))
 
-# Calculate Z-scores and identify outliers
 z_scores <- scale(x)
-# Count outliers (rows with any Z-score > 3 or < -3)
 outlier_count <- sum(rowSums(abs(z_scores) > 3) > 0)
 print(paste("Outlier Count:", outlier_count))
 
-# Calculate percentage of outliers
 total_samples <- nrow(x)
 outlier_percentage <- (outlier_count / total_samples) * 100
 print(paste("Outlier Percentage:", round(outlier_percentage, 2), "%"))
-
 
 set.seed(123)
 index <- sample(seq_len(nrow(x)), size = 0.8 * nrow(x))
