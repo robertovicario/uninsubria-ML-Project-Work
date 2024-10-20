@@ -1,29 +1,31 @@
 library(e1071)
-library(caret)
-library(stats)
+load("classification/metrics.rData")
+load("classification/preprocessing.rData")
 
-load("classification/preprocessing.RData")
-load("classification/metrics.RData")
-
-x_train <- scale(x_train)
-x_test <- scale(x_test)
+x_train <- scale(x_train_lda)
+x_test <- scale(x_test_lda)
 
 svm_model <- svm(x_train, as.factor(y_train), kernel = "linear")
 y_pred <- predict(svm_model, x_test)
-accuracy_val <- accuracy(y_pred, y_test)
 
-print(paste("Accuracy:", accuracy_val, "%"))
+print(paste("Accuracy:", accuracy(y_pred, y_test)))
+print(paste("Precision:", precision(y_pred, y_test)))
+print(paste("Recall:", recall(y_pred, y_test)))
+print(paste("F1-Score:", f1_score(y_pred, y_test)))
 
-pca_model <- prcomp(x_train, center = TRUE, scale. = TRUE)
-x_train_pca <- predict(pca_model, x_train)
-x_test_pca <- predict(pca_model, x_test)
+cost_vals <- 10^seq(-3, 3, by = 1)
+tuned_model <- tune(svm,
+                    train.x = x_train,
+                    train.y = as.factor(y_train),
+                    kernel = "linear",
+                    ranges = list(cost = cost_vals),
+                    tunecontrol = tune.control(sampling = "cross", cross = 10))
+print(tuned_model)
 
-k <- 50
-x_train_pca <- x_train_pca[, 1:k]
-x_test_pca <- x_test_pca[, 1:k]
+best_svm_model <- tuned_model$best.model
+y_pred <- predict(best_svm_model, x_test)
 
-svm_model <- svm(x_train_pca, as.factor(y_train), kernel = "linear")
-y_pred <- predict(svm_model, x_test_pca)
-
-accuracy_val <- accuracy(y_pred, y_test)
-print(paste("Accuracy:", accuracy_val, "%"))
+print(paste("Accuracy:", accuracy(y_pred, y_test)))
+print(paste("Precision:", precision(y_pred, y_test)))
+print(paste("Recall:", recall(y_pred, y_test)))
+print(paste("F1-Score:", f1_score(y_pred, y_test)))

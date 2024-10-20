@@ -1,4 +1,5 @@
 library(reticulate)
+library(MASS)
 
 sklearn <- import("sklearn.datasets")
 olivetti_faces <- sklearn$fetch_olivetti_faces()
@@ -11,19 +12,15 @@ y_shape <- dim(y)
 print(paste("X Shape:", paste(x_shape, collapse = ", ")))
 print(paste("Y Shape:", paste(y_shape, collapse = ", ")))
 
-missing_values <- anyNA(x)
-print(paste("Missing Values:", missing_values))
+missings <- sum(anyNA(x))
+print(paste("Missings:", missings, "/", nrow(x)))
 
-duplicates <- anyDuplicated(x)
-print(paste("Duplicates:", duplicates))
+duplicates <- sum(anyDuplicated(x))
+print(paste("Duplicates:", duplicates, "/", nrow(x)))
 
 z_scores <- scale(x)
-outlier_count <- sum(rowSums(abs(z_scores) > 3) > 0)
-print(paste("Outlier Count:", outlier_count))
-
-total_samples <- nrow(x)
-outlier_percentage <- (outlier_count / total_samples) * 100
-print(paste("Outlier Percentage:", round(outlier_percentage, 2), "%"))
+outliers <- sum(rowSums(abs(z_scores) > 3) > 0)
+print(paste("Outliers:", outliers, "/", nrow(x)))
 
 set.seed(123)
 index <- sample(seq_len(nrow(x)), size = 0.8 * nrow(x))
@@ -32,7 +29,11 @@ x_test <- x[-index, ]
 y_train <- y[index]
 y_test <- y[-index]
 
-save(x_train, x_test, y_train, y_test,
+lda_model <- lda(x_train, grouping = y_train)
+x_train_lda <- predict(lda_model, x_train)$x
+x_test_lda <- predict(lda_model, x_test)$x
+
+save(x_train_lda, x_test_lda, y_train, y_test,
   file = "classification/preprocessing.RData"
 )
 print("Saved: 'classification/preprocessing.RData'")
