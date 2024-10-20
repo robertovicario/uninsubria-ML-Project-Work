@@ -29,7 +29,5 @@ confusion_matrix <- function(y_pred, y_test) {
   return(val)
 }
 
-save(accuracy, confusion_matrix, precision, recall, f1_score,
-  file = "classification/metrics.RData"
-)
+save(accuracy, confusion_matrix, precision, recall, f1_score, file = "classification/metrics.RData") # nolint
 print("Saved: 'classification/metrics.RData'")

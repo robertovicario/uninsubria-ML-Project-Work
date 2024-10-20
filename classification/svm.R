@@ -1,6 +1,6 @@
 library(e1071)
-load("classification/metrics.rData")
-load("classification/preprocessing.rData")
+load("classification/metrics.RData")
+load("classification/preprocessing.RData")
 
 x_train <- scale(x_train_lda)
 x_test <- scale(x_test_lda)
@@ -12,7 +12,6 @@ tuned_model <- tune(svm,
                     kernel = "linear",
                     ranges = list(cost = cost_vals),
                     tunecontrol = tune.control(sampling = "cross", cross = 10))
-print(tuned_model)
 
 svm_model <- tuned_model$best.model
 y_pred <- predict(svm_model, x_test)

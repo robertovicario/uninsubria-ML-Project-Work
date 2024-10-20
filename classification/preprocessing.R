@@ -33,7 +33,5 @@ lda_model <- lda(x_train, grouping = y_train)
 x_train_lda <- predict(lda_model, x_train)$x
 x_test_lda <- predict(lda_model, x_test)$x
 
-save(x_train_lda, x_test_lda, y_train, y_test,
-  file = "classification/preprocessing.RData"
-)
+save(x_train_lda, x_test_lda, y_train, y_test, file = "classification/preprocessing.RData") # nolint
 print("Saved: 'classification/preprocessing.RData'")
