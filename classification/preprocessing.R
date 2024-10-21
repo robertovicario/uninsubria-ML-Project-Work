@@ -10,7 +10,7 @@ y <- olivetti_faces$target
 x_shape <- dim(x)
 y_shape <- dim(y)
 print(paste("X Shape:", paste(x_shape, collapse = ", ")))
-print(paste("Y Shape:", paste(y_shape, collapse = ", ")))
+print(paste("Y Shape:", y_shape))
 
 missings <- sum(anyNA(x))
 print(paste("Missings:", missings, "/", nrow(x)))
