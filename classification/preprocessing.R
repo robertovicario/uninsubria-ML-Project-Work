@@ -8,7 +8,7 @@ x <- olivetti_faces$data
 y <- olivetti_faces$target
 
 x_shape <- dim(x)
-y_shape <- dim(y)
+y_shape <- length(y)
 print(paste("X Shape:", paste(x_shape, collapse = ", ")))
 print(paste("Y Shape:", y_shape))
 
