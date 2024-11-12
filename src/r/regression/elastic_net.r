@@ -10,7 +10,7 @@ library(ggplot2)
 # ----- Importing -----
 # ---------------------
 
-load("data/models/preprocessing.rdata")
+load("../../data/models/preprocessing.rdata")
 
 # --------------------
 # ----- Training -----
@@ -29,7 +29,11 @@ elastic_net_preds <- predict(elastic_net_model, newdata = test_scaled)
 # ------------------
 
 # Saving Results
-sink("regression/elastic_net_results.log")
+sink("../../data/logs/elastic_net_results.log")
+
+# ----------------------
+# ----- Evaluation -----
+# ----------------------
 
 # MSE
 elastic_net_preds_mse <- mean((y_test - elastic_net_preds)^2)

@@ -7,7 +7,7 @@ library(hexbin)
 # --- EDA and Data Preprocessing Section ---
 
 # Load data
-data <- read.csv("regression/california_housing.csv")
+data <- read.csv("../../data/raw/california_housing.csv")
 
 # Remove duplicate rows
 data <- unique(data)

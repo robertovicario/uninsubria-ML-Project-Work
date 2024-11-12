@@ -8,7 +8,7 @@ library(hexbin)
 # ----- Importing -----
 # ---------------------
 
-data <- read.csv("regression/california_housing.csv")
+data <- read_csv("../../data/raw/california_housing.csv")
 
 # ---------------
 # ----- EDA -----
@@ -40,15 +40,15 @@ for (col in names(data)) {
 # Plotting for HBs
 hb_colors <- colorRampPalette(c("blue", "red", "green", "yellow"))
 
-# Hexbin 1
+# Plot 1
 hb1 <- hexbin(data$total_rooms, data$median_house_value)
 plot(hb1, xlab = "Total Rooms", ylab = "Median House Value", colramp = hb_colors)
 
-# Hexbin 2
+# Plot 2
 hb2 <- hexbin(data$total_bedrooms, data$median_house_value)
 plot(hb2, xlab = "Total Bedrooms", ylab = "Median House Value", colramp = hb_colors)
 
-# Hexbin 3
+# Plot 3
 hb3 <- hexbin(data$population, data$median_house_value)
 plot(hb3, xlab = "Population", ylab = "Median House Value", colramp = hb_colors)
 
@@ -56,4 +56,4 @@ plot(hb3, xlab = "Population", ylab = "Median House Value", colramp = hb_colors)
 # ----- Exporting -----
 # ---------------------
 
-save(data, file = "data/models/eda.rdata")
+save(data, file = "../../data/models/eda.rdata")

@@ -1,8 +1,14 @@
+# ------------------------
+# ----- Dependencies -----
+# ------------------------
+
+library(caret)
+
 # ---------------------
 # ----- Importing -----
 # ---------------------
 
-load("data/models/eda.rdata")
+load("../../data/models/eda.rdata")
 
 # -------------------------
 # ----- Preprocessing -----
@@ -27,4 +33,4 @@ train_control <- trainControl(method = "cv", number = 10)
 # ----- Exporting -----
 # ---------------------
 
-save(train_scaled, test_scaled, y_test, train_control, file = "data/models/preprocessing.rdata")
+save(train_scaled, test_scaled, y_test, train_control, file = "../../data/models/preprocessing.rdata")

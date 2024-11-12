@@ -10,7 +10,7 @@ library(ggplot2)
 # ----- Importing -----
 # ---------------------
 
-load("data/models/preprocessing.rdata")
+load("../../data/models/preprocessing.rdata")
 
 # --------------------
 # ----- Training -----
@@ -29,7 +29,11 @@ lasso_preds <- predict(lasso_model, newdata = test_scaled)
 # ------------------
 
 # Saving Results
-sink("regression/lasso_results.log")
+sink("../../data/logs/lasso_results.log")
+
+# ----------------------
+# ----- Evaluation -----
+# ----------------------
 
 # MSE
 lasso_preds_mse <- mean((y_test - lasso_preds)^2)

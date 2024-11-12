@@ -10,7 +10,7 @@ library(ggplot2)
 # ----- Importing -----
 # ---------------------
 
-load("data/models/preprocessing.rdata")
+load("../../data/models/preprocessing.rdata")
 
 # --------------------
 # ----- Training -----
@@ -29,7 +29,11 @@ ridge_preds <- predict(ridge_model, newdata = test_scaled)
 # ------------------
 
 # Saving Results
-sink("regression/ridge_results.log")
+sink("../../data/logs/ridge_results.log")
+
+# ----------------------
+# ----- Evaluation -----
+# ----------------------
 
 # MSE
 ridge_preds_mse <- mean((y_test - ridge_preds)^2)
