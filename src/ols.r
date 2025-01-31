@@ -1,6 +1,9 @@
 # ---------------------------------------------
 
 
+# Importing libraries
+library(caret)
+
 # Loading the preprocessed data
 load("./src/preprocessing.rdata")
 
@@ -8,9 +11,19 @@ load("./src/preprocessing.rdata")
 # ---------------------------------------------
 
 
+# Tuning the hyperparameters
+# Strategy: Cross-Validation, Grid Search
+n_folds <- 10
+train_control <- trainControl(method = "cv", number = n_folds)
+tune_grid <- expand.grid(intercept = c(TRUE, FALSE))
+
 # Training the model
 # Strategy: Linear Regression
-ols_model <- lm(median_house_value ~ ., data = train)
+ols_model <- train(median_house_value ~ .,
+                   data = train,
+                   method = "lm",
+                   trControl = train_control,
+                   tuneGrid = tune_grid)
 ols_predictions <- predict(ols_model, newdata = test)
 
 

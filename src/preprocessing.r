@@ -1,6 +1,6 @@
 # ---------------------------------------------
 
-# Imports
+# Importing libraries
 library(readr)
 library(caret)
 
