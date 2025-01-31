@@ -78,7 +78,7 @@ test <- data[-train_index, ]
 # ---------------------------------------------
 
 
-# Exporting all objects
+# Exporting the preprocessed data
 save(data, train, test, file = "./src/preprocessing.rdata")
 
 

@@ -5,7 +5,7 @@
 library(caret)
 library(randomForest)
 
-# Loading the dataset preprocessed
+# Loading the preprocessed data
 data <- load("./src/preprocessing.rdata")
 
 
