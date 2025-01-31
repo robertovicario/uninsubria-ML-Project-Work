@@ -5,7 +5,7 @@ library(readr)
 library(caret)
 
 # Loading the dataset
-data <- as.data.frame(read_csv("./data/raw/california_housing.csv"))
+data <- as.data.frame(read_csv("./data/california_housing.csv"))
 
 
 # ---------------------------------------------
@@ -67,8 +67,10 @@ for (col in names(data)) {
 # Splitting the data
 # Strategy: 80 training, 20 testing
 set.seed(123)
-p <- 0.8 # training percentage
-train_index <- createDataPartition(data$median_house_value, p = p, list = FALSE)
+train_percent <- 0.8 # training percentage
+train_index <- createDataPartition(data$median_house_value,
+                                   p = train_percent,
+                                   list = FALSE)
 train <- data[train_index, ]
 test <- data[-train_index, ]
 
@@ -76,8 +78,8 @@ test <- data[-train_index, ]
 # ---------------------------------------------
 
 
-# Exporting the functions
-save(data, file = "./src/preprocessing.rdata")
+# Exporting all objects
+save(data, train, test, file = "./src/preprocessing.rdata")
 
 
 # ---------------------------------------------
