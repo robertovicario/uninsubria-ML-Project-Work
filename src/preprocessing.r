@@ -1,10 +1,11 @@
 # ---------------------------------------------
 
-# Importing libraries
+
+# Import libraries
 library(readr)
 library(caret)
 
-# Loading the dataset
+# Loading the data
 data <- as.data.frame(read_csv("./data/california_housing.csv"))
 
 
@@ -22,6 +23,7 @@ if (any(is.na(data))) {
     }
   }
 }
+
 
 # ---------------------------------------------
 
