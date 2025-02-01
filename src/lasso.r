@@ -1,19 +1,30 @@
 # ---------------------------------------------
 
 
+# Importing the libraries
+library(caret)
+library(glmnet)
+
 # Loading the preprocessed data
-data <- load("/src/preprocessing.rdata")
+load("./src/preprocessing.rdata")
 
 
 # ---------------------------------------------
 
 
 # Training the model
-# Strategy: LASSO Regression
-lasso_model <- cv.glmnet(x_train, y_train, alpha = 1)
-lasso_predictions <- predict(lasso_model,
-                             s = lasso_model$lambda.min,
-                             newx = x_test)
+# Strategy: LASSO Regression, Cross-Validation, Regularization
+lasso_n_folds       <- 10
+lasso_train_control <- trainControl(method = "cv", number = lasso_n_folds)
+lasso_grid          <- expand.grid(alpha = 1,
+                                   lambda = seq(0.001, 0.1, by = 0.001))
+
+lasso_model         <- train(median_house_value ~ .,
+                             data = train,
+                             method = "glmnet",
+                             trControl = lasso_train_control,
+                             tuneGrid = lasso_grid)
+lasso_predictions   <- predict(lasso_model, newdata = test)
 
 
 # ---------------------------------------------
@@ -22,12 +33,22 @@ lasso_predictions <- predict(lasso_model,
 # Evaluating the model
 # Strategy: MSE, R2
 lasso_mse <- mean((lasso_predictions - test$median_house_value)^2)
-sst <- sum((test$median_house_value - mean(test$median_house_value))^2)
-sse <- sum((lasso_predictions - test$median_house_value)^2)
-lasso_r2 <- 1 - sse / sst
+lasso_r2  <- cor(lasso_predictions, test$median_house_value)^2
 
-print(paste("LASSO Regression, MSE:", lasso_mse))
-print(paste("LASSO Regression, R2:", lasso_r2))
+print(paste("MSE:", round(lasso_mse, 3)))
+print(paste(" R2:", round(lasso_r2, 3)))
+
+
+# ---------------------------------------------
+
+
+# Exporting the metrics
+log_file <- "./log/lasso.log"
+log_msg  <- paste("LASSO Regression:")
+log_msg  <- paste(log_msg, "\n    - MSE:", lasso_mse)
+log_msg  <- paste(log_msg, "\n    -  R2:", lasso_r2)
+cat("", file = log_file)
+cat(log_msg, file = log_file, append = TRUE)
 
 
 # ---------------------------------------------
