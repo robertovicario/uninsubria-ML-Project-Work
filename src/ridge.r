@@ -26,6 +26,9 @@ ridge_model         <- train(median_house_value ~ .,
                              tuneGrid = ridge_grid)
 ridge_predictions   <- predict(ridge_model, newdata = test)
 
+print(ridge_model$bestTune)
+print(ridge_model$finalModel)
+
 
 # ---------------------------------------------
 
@@ -43,7 +46,7 @@ print(paste(" R2:", round(ridge_r2, 3)))
 
 
 # Exporting the metrics
-log_file <- "./log/ridge.log"
+log_file <- "./log/regression/ridge.log"
 log_msg  <- paste("Ridge Regression:")
 log_msg  <- paste(log_msg, "\n    - MSE:", ridge_mse)
 log_msg  <- paste(log_msg, "\n    -  R2:", ridge_r2)

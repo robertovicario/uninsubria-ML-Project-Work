@@ -22,6 +22,9 @@ ols_model         <- train(median_house_value ~ .,
                            trControl = ols_train_control)
 ols_predictions   <- predict(ols_model, newdata = test)
 
+print(ols_model$bestTune)
+print(ols_model$finalModel)
+
 
 # ---------------------------------------------
 
@@ -39,7 +42,7 @@ print(paste(" R2:", round(ols_r2, 3)))
 
 
 # Exporting the metrics
-log_file <- "./log/ols.log"
+log_file <- "./log/regression/ols.log"
 log_msg  <- paste("Linear Regression:")
 log_msg  <- paste(log_msg, "\n    - MSE:", ols_mse)
 log_msg  <- paste(log_msg, "\n    -  R2:", ols_r2)

@@ -26,6 +26,9 @@ lasso_model         <- train(median_house_value ~ .,
                              tuneGrid = lasso_grid)
 lasso_predictions   <- predict(lasso_model, newdata = test)
 
+print(lasso_model$bestTune)
+print(lasso_model$finalModel)
+
 
 # ---------------------------------------------
 
@@ -43,7 +46,7 @@ print(paste(" R2:", round(lasso_r2, 3)))
 
 
 # Exporting the metrics
-log_file <- "./log/lasso.log"
+log_file <- "./log/regression/lasso.log"
 log_msg  <- paste("LASSO Regression:")
 log_msg  <- paste(log_msg, "\n    - MSE:", lasso_mse)
 log_msg  <- paste(log_msg, "\n    -  R2:", lasso_r2)

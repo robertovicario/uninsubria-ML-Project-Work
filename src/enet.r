@@ -26,6 +26,9 @@ enet_model         <- train(median_house_value ~ .,
                             tuneGrid = enet_grid)
 enet_predictions   <- predict(enet_model, newdata = test)
 
+print(enet_model$bestTune)
+print(enet_model$finalModel)
+
 
 # ---------------------------------------------
 
@@ -43,7 +46,7 @@ print(paste(" R2:", round(enet_r2, 3)))
 
 
 # Exporting the metrics
-log_file <- "./log/enet.log"
+log_file <- "./log/regression/enet.log"
 log_msg  <- paste("Elastic Net Regression:")
 log_msg  <- paste(log_msg, "\n    - MSE:", enet_mse)
 log_msg  <- paste(log_msg, "\n    -  R2:", enet_r2)
