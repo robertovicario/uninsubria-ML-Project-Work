@@ -3,9 +3,12 @@
 
 # Importing the libraries
 library(readr)
+library(reticulate)
 
 # Loading the data
-data <- as.data.frame(read_csv("./data/olivetti_faces.npy"))
+np <- import("numpy")
+data <- np$load("./data/olivetti_faces.npy")
+data <- as.data.frame(data)
 
 
 # ---------------------------------------------
