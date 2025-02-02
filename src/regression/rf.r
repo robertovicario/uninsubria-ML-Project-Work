@@ -6,7 +6,7 @@ library(caret)
 library(randomForest)
 
 # Loading the preprocessed data
-load("./src/preprocessing.rdata")
+load("./src/regression/preprocessing.rdata")
 
 
 # ---------------------------------------------

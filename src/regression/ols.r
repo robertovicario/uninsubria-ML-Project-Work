@@ -5,7 +5,7 @@
 library(caret)
 
 # Loading the preprocessed data
-load("./src/preprocessing.rdata")
+load("./src/regression/preprocessing.rdata")
 
 
 # ---------------------------------------------

@@ -81,7 +81,7 @@ test <- data[-train_index, ]
 
 
 # Exporting the preprocessed data
-save(data, train, test, file = "./src/preprocessing.rdata")
+save(data, train, test, file = "./src/regression/preprocessing.rdata")
 
 
 # ---------------------------------------------
