@@ -5,7 +5,7 @@
 library(readr)
 
 # Loading the data
-data <- as.data.frame(read_csv("./data/california_housing.csv"))
+data <- as.data.frame(read_csv("./data/olivetti_faces.npy"))
 
 
 # ---------------------------------------------
@@ -68,7 +68,7 @@ for (col in names(data)) {
 # Splitting the data
 # Strategy: 80 training, 20 testing
 set.seed(123)
-train_percent <- 0.8
+train_percent <- 0.8 # training percentage
 train_index <- createDataPartition(data$median_house_value,
                                    p = train_percent,
                                    list = FALSE)
@@ -80,7 +80,7 @@ test <- data[-train_index, ]
 
 
 # Exporting the preprocessed data
-save(data, train, test, file = "./src/regression/preprocessing.rdata")
+save(data, train, test, file = "./src/classification/preprocessing.rdata")
 
 
 # ---------------------------------------------
