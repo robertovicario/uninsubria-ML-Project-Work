@@ -1,0 +1,5 @@
+Multi-Layer Perceptron: 
+    -  Accuracy: 0.863636363636364 
+    - Precision: 0.894736842105263 
+    -    Recall: 0.944444444444444 
+    -        F1: 0.918918918918919

@@ -3,6 +3,7 @@
 
 # Importing the libraries
 library(caret)
+library(e1071)
 
 # Loading the preprocessed data
 load("./src/classification/preprocessing.rdata")
@@ -13,7 +14,6 @@ load("./src/classification/preprocessing.rdata")
 
 # Training the model
 # Strategy: SVM, Cross-Validation, Hyperparameter Tuning
-
 svm_n_folds       <- 10
 svm_train_control <- trainControl(method = "cv", number = svm_n_folds)
 svm_grid          <- expand.grid(C = 2^(-5:2), sigma = 2^(-15:3))
