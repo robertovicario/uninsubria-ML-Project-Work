@@ -40,10 +40,10 @@ svm_prec         <- confusion_matrix$byClass["Pos Pred Value"]
 svm_rec          <- confusion_matrix$byClass["Sensitivity"]
 svm_f1           <- confusion_matrix$byClass["F1"]
 
-print(paste("  Accuracy:", round(svm_acc, 3)))
-print(paste(" Precision:", round(svm_prec, 3)))
-print(paste("    Recall:", round(svm_rec, 3)))
-print(paste("        F1:", round(svm_f1, 3)))
+print(paste(" Accuracy:", round(svm_acc, 3)))
+print(paste("Precision:", round(svm_prec, 3)))
+print(paste("   Recall:", round(svm_rec, 3)))
+print(paste("       F1:", round(svm_f1, 3)))
 
 
 # ---------------------------------------------
@@ -54,7 +54,7 @@ save(svm_model, file = "./models/classification/svm.h5")
 
 # Exporting the metrics
 log_file <- "./log/classification/svm.log"
-log_msg  <- paste("SVM:")
+log_msg  <- paste("Support Vector Machine:")
 log_msg  <- paste(log_msg, "\n    -  Accuracy:", svm_acc)
 log_msg  <- paste(log_msg, "\n    - Precision:", svm_prec)
 log_msg  <- paste(log_msg, "\n    -    Recall:", svm_rec)
