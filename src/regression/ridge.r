@@ -19,7 +19,7 @@ ridge_train_control <- trainControl(method = "cv", number = ridge_n_folds)
 ridge_grid          <- expand.grid(alpha = 0,
                                    lambda = seq(0.001, 0.1, by = 0.001))
 
-ridge_model         <- train(median_house_value ~ .,
+ridge_model         <- train(MED.VALUE ~ .,
                              data = train,
                              method = "glmnet",
                              trControl = ridge_train_control,
@@ -35,8 +35,8 @@ print(ridge_model$finalModel)
 
 # Evaluating the model
 # Strategy: MSE, R2
-ridge_mse <- mean((ridge_predictions - test$median_house_value)^2)
-ridge_r2  <- cor(ridge_predictions, test$median_house_value)^2
+ridge_mse <- mean((ridge_predictions - test$MED.VALUE)^2)
+ridge_r2  <- cor(ridge_predictions, test$MED.VALUE)^2
 
 print(paste("MSE:", round(ridge_mse, 3)))
 print(paste(" R2:", round(ridge_r2, 3)))

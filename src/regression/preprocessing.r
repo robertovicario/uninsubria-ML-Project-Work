@@ -2,10 +2,12 @@
 
 
 # Importing the libraries
-library(readr)
+library("A3")
+library(caret)
 
 # Loading the data
-data <- as.data.frame(read_csv("./data/california_housing.csv"))
+data(housing)
+data <- as.data.frame(housing)
 
 
 # ---------------------------------------------
@@ -13,13 +15,12 @@ data <- as.data.frame(read_csv("./data/california_housing.csv"))
 
 # Checking for missing values
 # Strategy: Impute missing values with median
-if (any(is.na(data))) {
-  missing_count <- sum(is.na(data))
-  cat("Missings Count:", missing_count, "\n")
-  for (col in names(data)) {
-    if (any(is.na(data[[col]]))) {
-      data[[col]][is.na(data[[col]])] <- median(data[[col]], na.rm = TRUE)
-    }
+missings_count <- sum(is.na(data))
+cat("  Missings Count:", missings_count, "\n")
+
+for (col in names(data)) {
+  if (anyNA(data[[col]])) {
+    data[[col]][is.na(data[[col]])] <- median(data[[col]])
   }
 }
 
@@ -29,36 +30,27 @@ if (any(is.na(data))) {
 
 # Checking for duplicates
 # Strategy: Remove duplicates iteratively
-if (any(duplicated(data))) {
-  duplicated_count <- sum(duplicated(data))
-  cat("Duplicated Values Count:", duplicated_count, "\n")
+duplicated_count <- sum(duplicated(data))
+cat("Duplicated Count:", duplicated_count, "\n")
+
+if (anyDuplicated(data)) {
   data <- data[!duplicated(data), ]
 }
+
 
 # ---------------------------------------------
 
 
 # Checking for outliers
 # Strategy: Remove outliers using Cook's distance
-model <- lm(median_house_value ~ ., data = data)
+model <- lm(data$MED.VALUE ~ ., data = data)
 cooks_distance <- cooks.distance(model)
 influential <- cooks_distance > (4 / nrow(data))
+outliers_count <- sum(influential)
+cat("  Outliers Count:", outliers_count, "\n")
+
 if (any(influential)) {
-  outliers_count <- sum(influential)
-  cat("Outliers Count:", outliers_count, "\n")
   data <- data[!influential, ]
-}
-
-
-# ---------------------------------------------
-
-
-# Normalizing the data
-# Strategy: Standardization
-for (col in names(data)) {
-  if (is.numeric(data[[col]])) {
-    data[[col]] <- scale(data[[col]])
-  }
 }
 
 
@@ -69,7 +61,7 @@ for (col in names(data)) {
 # Strategy: 80 training, 20 testing
 set.seed(123)
 train_percent <- 0.8
-train_index <- createDataPartition(data$median_house_value,
+train_index <- createDataPartition(data$MED.VALUE,
                                    p = train_percent,
                                    list = FALSE)
 train <- data[train_index, ]

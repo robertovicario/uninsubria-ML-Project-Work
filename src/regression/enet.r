@@ -19,7 +19,7 @@ enet_train_control <- trainControl(method = "cv", number = enet_n_folds)
 enet_grid          <- expand.grid(alpha = seq(0, 1, by = 0.1),
                                   lambda = seq(0.001, 0.1, by = 0.001))
 
-enet_model         <- train(median_house_value ~ .,
+enet_model         <- train(MED.VALUE ~ .,
                             data = train,
                             method = "glmnet",
                             trControl = enet_train_control,
@@ -35,8 +35,8 @@ print(enet_model$finalModel)
 
 # Evaluating the model
 # Strategy: MSE, R2
-enet_mse <- mean((enet_predictions - test$median_house_value)^2)
-enet_r2  <- cor(enet_predictions, test$median_house_value)^2
+enet_mse <- mean((enet_predictions - test$MED.VALUE)^2)
+enet_r2  <- cor(enet_predictions, test$MED.VALUE)^2
 
 print(paste("MSE:", round(enet_mse, 3)))
 print(paste(" R2:", round(enet_r2, 3)))

@@ -16,7 +16,7 @@ load("./src/regression/preprocessing.rdata")
 ols_n_folds       <- 10
 ols_train_control <- trainControl(method = "cv", number = ols_n_folds)
 
-ols_model         <- train(median_house_value ~ .,
+ols_model         <- train(MED.VALUE ~ .,
                            data = train,
                            method = "lm",
                            trControl = ols_train_control)
@@ -31,8 +31,8 @@ print(ols_model$finalModel)
 
 # Evaluating the model
 # Strategy: MSE, R2
-ols_mse <- mean((ols_predictions - test$median_house_value)^2)
-ols_r2  <- cor(ols_predictions, test$median_house_value)^2
+ols_mse <- mean((ols_predictions - test$MED.VALUE)^2)
+ols_r2  <- cor(ols_predictions, test$MED.VALUE)^2
 
 print(paste("MSE:", round(ols_mse, 3)))
 print(paste(" R2:", round(ols_r2, 3)))

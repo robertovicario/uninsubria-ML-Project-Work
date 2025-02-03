@@ -15,13 +15,13 @@ load("./src/regression/preprocessing.rdata")
 # Training the model
 # Strategy: Random Forest Regressor, Cross-Validation, Hyperparameter Tuning
 
-rf_n_folds       <- 3
+rf_n_folds       <- 10
 rf_train_control <- trainControl(method = "cv",
                                  number = rf_n_folds,
                                  verboseIter = TRUE)
 rf_grid          <- expand.grid(mtry = c(2, 3, 4, 5))
 
-rf_model         <- train(median_house_value ~ .,
+rf_model         <- train(MED.VALUE ~ .,
                           data = train,
                           method = "rf",
                           trControl = rf_train_control,
@@ -38,8 +38,8 @@ print(rf_model$finalModel)
 # Evaluating the model
 # Strategy: MSE, R2
 
-rf_mse <- mean((rf_predictions - test$median_house_value)^2)
-rf_r2  <- cor(rf_predictions, test$median_house_value)^2
+rf_mse <- mean((rf_predictions - test$MED.VALUE)^2)
+rf_r2  <- cor(rf_predictions, test$MED.VALUE)^2
 
 print(paste("MSE:", round(rf_mse, 3)))
 print(paste(" R2:", round(rf_r2, 3)))

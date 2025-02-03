@@ -2,13 +2,12 @@
 
 
 # Importing the libraries
-library(readr)
-library(reticulate)
+library(caret)
+library(kernlab)
 
 # Loading the data
-np <- import("numpy")
-data <- np$load("./data/olivetti_faces.npy")
-data <- as.data.frame(data)
+data(spam)
+data <- as.data.frame(spam)
 
 
 # ---------------------------------------------
@@ -16,9 +15,10 @@ data <- as.data.frame(data)
 
 # Checking for missing values
 # Strategy: Impute missing values with median
-if (any(is.na(data))) {
-  missing_count <- sum(is.na(data))
-  cat("Missings Count:", missing_count, "\n")
+missings_count <- sum(is.na(data))
+cat("  Missings Count:", missings_count, "\n")
+
+if (anyNA(data)) {
   for (col in names(data)) {
     if (any(is.na(data[[col]]))) {
       data[[col]][is.na(data[[col]])] <- median(data[[col]], na.rm = TRUE)
@@ -32,37 +32,37 @@ if (any(is.na(data))) {
 
 # Checking for duplicates
 # Strategy: Remove duplicates iteratively
-if (any(duplicated(data))) {
-  duplicated_count <- sum(duplicated(data))
-  cat("Duplicated Values Count:", duplicated_count, "\n")
+duplicated_count <- sum(duplicated(data))
+cat("Duplicated Count:", duplicated_count, "\n")
+
+if (anyDuplicated(data)) {
   data <- data[!duplicated(data), ]
 }
+
 
 # ---------------------------------------------
 
 
 # Checking for outliers
-# Strategy: Remove outliers using Cook's distance
-model <- lm(median_house_value ~ ., data = data)
-cooks_distance <- cooks.distance(model)
-influential <- cooks_distance > (4 / nrow(data))
-if (any(influential)) {
-  outliers_count <- sum(influential)
-  cat("Outliers Count:", outliers_count, "\n")
-  data <- data[!influential, ]
-}
+# Strategy: Remove outliers using IQR method
+numeric_data <- data[, sapply(data, is.numeric)]
+q1 <- apply(numeric_data, 2, quantile, probs = 0.25, na.rm = TRUE)
+q3 <- apply(numeric_data, 2, quantile, probs = 0.75, na.rm = TRUE)
+iqr <- q3 - q1
 
+lower_bound <- q1 - 1.5 * iqr
+upper_bound <- q3 + 1.5 * iqr
 
-# ---------------------------------------------
-
-
-# Normalizing the data
-# Strategy: Standardization
+outliers_count <- 0
 for (col in names(data)) {
   if (is.numeric(data[[col]])) {
-    data[[col]] <- scale(data[[col]])
+    outliers <- data[[col]] < lower_bound[col] | data[[col]] > upper_bound[col]
+    outliers_count <- outliers_count + sum(outliers)
+    data <- data[!outliers, ]
   }
 }
+
+cat("  Outliers Count:", outliers_count, "\n")
 
 
 # ---------------------------------------------
@@ -71,7 +71,7 @@ for (col in names(data)) {
 # Splitting the data
 # Strategy: 80 training, 20 testing
 set.seed(123)
-train_percent <- 0.8 # training percentage
+train_percent <- 0.8
 train_index <- createDataPartition(data$median_house_value,
                                    p = train_percent,
                                    list = FALSE)
