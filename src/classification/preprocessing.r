@@ -18,11 +18,9 @@ data <- as.data.frame(spam)
 missings_count <- sum(is.na(data))
 cat("  Missings Count:", missings_count, "\n")
 
-if (anyNA(data)) {
-  for (col in names(data)) {
-    if (any(is.na(data[[col]]))) {
-      data[[col]][is.na(data[[col]])] <- median(data[[col]], na.rm = TRUE)
-    }
+for (col in names(data)) {
+  if (anyNA(data[[col]])) {
+    data[[col]][is.na(data[[col]])] <- median(data[[col]])
   }
 }
 
@@ -49,7 +47,6 @@ numeric_data <- data[, sapply(data, is.numeric)]
 q1 <- apply(numeric_data, 2, quantile, probs = 0.25, na.rm = TRUE)
 q3 <- apply(numeric_data, 2, quantile, probs = 0.75, na.rm = TRUE)
 iqr <- q3 - q1
-
 lower_bound <- q1 - 1.5 * iqr
 upper_bound <- q3 + 1.5 * iqr
 
@@ -72,7 +69,7 @@ cat("  Outliers Count:", outliers_count, "\n")
 # Strategy: 80 training, 20 testing
 set.seed(123)
 train_percent <- 0.8
-train_index <- createDataPartition(data$median_house_value,
+train_index <- createDataPartition(data$type,
                                    p = train_percent,
                                    list = FALSE)
 train <- data[train_index, ]
