@@ -45,6 +45,9 @@ print(paste(" R2:", round(ridge_r2, 3)))
 # ---------------------------------------------
 
 
+# Exporting the model
+save(ridge_model, file = "./models/regression/ridge.h5")
+
 # Exporting the metrics
 log_file <- "./log/regression/ridge.log"
 log_msg  <- paste("Ridge Regression:")

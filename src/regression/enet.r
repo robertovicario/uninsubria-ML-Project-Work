@@ -45,6 +45,9 @@ print(paste(" R2:", round(enet_r2, 3)))
 # ---------------------------------------------
 
 
+# Exporting the model
+save(enet_model, file = "./models/regression/enet.h5")
+
 # Exporting the metrics
 log_file <- "./log/regression/enet.log"
 log_msg  <- paste("Elastic Net Regression:")

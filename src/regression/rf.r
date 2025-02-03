@@ -48,6 +48,9 @@ print(paste(" R2:", round(rf_r2, 3)))
 # ---------------------------------------------
 
 
+# Exporting the model
+save(rf_model, file = "./models/regression/rf.h5")
+
 # Exporting the metrics
 log_file <- "./log/regression/rf.log"
 log_msg  <- paste("Random Forest Regressor:")

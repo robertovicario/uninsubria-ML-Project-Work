@@ -41,6 +41,9 @@ print(paste(" R2:", round(ols_r2, 3)))
 # ---------------------------------------------
 
 
+# Exporting the model
+save(ols_model, file = "./models/regression/ols.h5")
+
 # Exporting the metrics
 log_file <- "./log/regression/ols.log"
 log_msg  <- paste("Linear Regression:")
