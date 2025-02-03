@@ -20,7 +20,7 @@ naivebys_grid          <- expand.grid(C = 2^(-5:2), sigma = 2^(-15:3))
 
 naivebys_model         <- train(type ~ .,
                                 data = train,
-                                method = "naivebysRadial",
+                                method = "svmRadial",
                                 trControl = naivebys_train_control,
                                 tuneGrid = naivebys_grid)
 naivebys_predictions   <- predict(naivebys_model, newdata = test)
