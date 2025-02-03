@@ -4,7 +4,6 @@
 # Importing the libraries
 library(caret)
 
-
 # Loading the preprocessed data
 load("./src/classification/preprocessing.rdata")
 
@@ -13,7 +12,7 @@ load("./src/classification/preprocessing.rdata")
 
 
 # Training the model
-# Strategy: SVM, Cross-Validation, Regularization
+# Strategy: SVM, Cross-Validation, Hyperparameter Tuning
 
 svm_n_folds       <- 10
 svm_train_control <- trainControl(method = "cv", number = svm_n_folds)
@@ -23,7 +22,7 @@ svm_model         <- train(type ~ .,
                            data = train,
                            method = "svmRadial",
                            trControl = svm_train_control,
-                           tuneLength = svm_grid)
+                           tuneGrid = svm_grid)
 svm_predictions   <- predict(svm_model, newdata = test)
 
 print(svm_model$bestTune)
