@@ -51,7 +51,7 @@ print(paste("       F1:", round(nb_f1, 3)))
 
 
 # Exporting the model
-save(nb_model, file = "./models/classification/nb.h5")
+save(nb_model, file = "./models/classification/nb.rdata")
 
 # Exporting the metrics
 log_file <- "./log/classification/nb.log"

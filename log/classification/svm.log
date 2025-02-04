@@ -1,5 +1,5 @@
 Support Vector Machine: 
-    -  Accuracy: 0.909090909090909 
-    - Precision: 0.9 
+    -  Accuracy: 0.818181818181818 
+    - Precision: 0.818181818181818 
     -    Recall: 1 
-    -        F1: 0.947368421052632
+    -        F1: 0.9

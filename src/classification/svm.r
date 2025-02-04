@@ -50,7 +50,7 @@ print(paste("       F1:", round(svm_f1, 3)))
 
 
 # Exporting the model
-save(svm_model, file = "./models/classification/svm.h5")
+save(svm_model, file = "./models/classification/svm.rdata")
 
 # Exporting the metrics
 log_file <- "./log/classification/svm.log"

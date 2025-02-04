@@ -49,7 +49,7 @@ print(paste(" R2:", round(rf_r2, 3)))
 
 
 # Exporting the model
-save(rf_model, file = "./models/regression/rf.h5")
+save(rf_model, file = "./models/regression/rf.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/rf.log"

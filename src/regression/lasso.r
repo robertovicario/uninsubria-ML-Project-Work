@@ -16,12 +16,11 @@ load("./src/regression/preprocessing.rdata")
 # Strategy: LASSO Regression, Cross-Validation, Regularization
 lasso_n_folds       <- 10
 lasso_train_control <- trainControl(method = "cv", number = lasso_n_folds)
-lasso_grid          <- expand.grid(alpha = 1,
-                                   lambda = seq(0.001, 0.1, by = 0.001))
+lasso_grid          <- expand.grid(fraction = seq(0, 1, by = 0.1))
 
 lasso_model         <- train(MED.VALUE ~ .,
                              data = train,
-                             method = "glmnet",
+                             method = "lasso",
                              trControl = lasso_train_control,
                              tuneGrid = lasso_grid)
 lasso_predictions   <- predict(lasso_model, newdata = test)
@@ -46,7 +45,7 @@ print(paste(" R2:", round(lasso_r2, 3)))
 
 
 # Exporting the model
-save(lasso_model, file = "./models/regression/lasso.h5")
+save(lasso_model, file = "./models/regression/lasso.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/lasso.log"

@@ -16,12 +16,11 @@ load("./src/regression/preprocessing.rdata")
 # Strategy: Ridge Regression, Cross-Validation, Regularization
 ridge_n_folds       <- 10
 ridge_train_control <- trainControl(method = "cv", number = ridge_n_folds)
-ridge_grid          <- expand.grid(alpha = 0,
-                                   lambda = seq(0.001, 0.1, by = 0.001))
+ridge_grid          <- expand.grid(lambda = seq(0.001, 0.1, by = 0.001))
 
 ridge_model         <- train(MED.VALUE ~ .,
                              data = train,
-                             method = "glmnet",
+                             method = "ridge",
                              trControl = ridge_train_control,
                              tuneGrid = ridge_grid)
 ridge_predictions   <- predict(ridge_model, newdata = test)
@@ -46,7 +45,7 @@ print(paste(" R2:", round(ridge_r2, 3)))
 
 
 # Exporting the model
-save(ridge_model, file = "./models/regression/ridge.h5")
+save(ridge_model, file = "./models/regression/ridge.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/ridge.log"
