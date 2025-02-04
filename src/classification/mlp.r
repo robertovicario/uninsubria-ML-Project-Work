@@ -15,8 +15,7 @@ load("./src/classification/preprocessing.rdata")
 # Strategy: MLP, Cross-Validation, Hyperparameter Tuning
 mlp_n_folds       <- 10
 mlp_train_control <- trainControl(method = "cv", number = mlp_n_folds)
-mlp_grid          <- expand.grid(size = c(1, 2, 3, 10),
-                                 decay = c(0.01, 0.1, 0.5))
+mlp_grid          <- expand.grid(size = c(10), decay = c(0.5))
 
 mlp_model         <- train(type ~ .,
                            data = train,
