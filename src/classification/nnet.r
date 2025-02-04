@@ -15,7 +15,7 @@ load("./src/classification/preprocessing.rdata")
 # Strategy: Neural Network, Cross-Validation, Hyperparameter Tuning
 nnet_n_folds       <- 10
 nnet_train_control <- trainControl(method = "cv", number = nnet_n_folds)
-nnet_grid          <- expand.grid(size = c(10), decay = c(0.5))
+nnet_grid          <- expand.grid(size = c(5, 10, 15), decay = c(0.1, 0.5, 1.0))
 
 nnet_model         <- train(type ~ .,
                             data = train,
@@ -25,20 +25,17 @@ nnet_model         <- train(type ~ .,
                             linout = FALSE)
 nnet_predictions   <- predict(nnet_model, newdata = test)
 
-print(nnet_model$bestTune)
-print(nnet_model$finalModel)
-
 
 # ---------------------------------------------
 
 
 # Evaluating the model
 # Strategy: Accuracy, Precision, Recall, F1
-confusion_matrix <- confusionMatrix(nnet_predictions, test$type)
-nnet_acc          <- confusion_matrix$overall["Accuracy"]
-nnet_prec         <- confusion_matrix$byClass["Pos Pred Value"]
-nnet_rec          <- confusion_matrix$byClass["Sensitivity"]
-nnet_f1           <- confusion_matrix$byClass["F1"]
+net_confusion_matrix <- confusionMatrix(nnet_predictions, test$type)
+nnet_acc             <- net_confusion_matrix$overall["Accuracy"]
+nnet_prec            <- net_confusion_matrix$byClass["Pos Pred Value"]
+nnet_rec             <- net_confusion_matrix$byClass["Sensitivity"]
+nnet_f1              <- net_confusion_matrix$byClass["F1"]
 
 print(paste(" Accuracy:", round(nnet_acc, 3)))
 print(paste("Precision:", round(nnet_prec, 3)))
@@ -50,7 +47,7 @@ print(paste("       F1:", round(nnet_f1, 3)))
 
 
 # Exporting the model
-save(nnet_model, file = "./models/classification/nnet.rdata")
+save(nnet_predictions, file = "./models/classification/nnet.rdata")
 
 # Exporting the metrics
 log_file <- "./log/classification/nnet.log"

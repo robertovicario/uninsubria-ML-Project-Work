@@ -46,7 +46,7 @@ print(paste(" R2:", round(enet_r2, 3)))
 
 
 # Exporting the model
-save(enet_model, file = "./models/regression/enet.rdata")
+save(enet_predictions, file = "./models/regression/enet.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/enet.log"

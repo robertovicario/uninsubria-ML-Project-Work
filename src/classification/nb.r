@@ -26,20 +26,17 @@ nb_model         <- train(type ~ .,
                           tuneGrid = nb_grid)
 nb_predictions   <- predict(nb_model, newdata = test)
 
-print(nb_model$bestTune)
-print(nb_model$finalModel)
-
 
 # ---------------------------------------------
 
 
 # Evaluating the model
 # Strategy: Accuracy, Precision, Recall, F1
-confusion_matrix <- confusionMatrix(nb_predictions, test$type)
-nb_acc          <- confusion_matrix$overall["Accuracy"]
-nb_prec         <- confusion_matrix$byClass["Pos Pred Value"]
-nb_rec          <- confusion_matrix$byClass["Sensitivity"]
-nb_f1           <- confusion_matrix$byClass["F1"]
+nb_confusion_matrix <- confusionMatrix(nb_predictions, test$type)
+nb_acc              <- nb_confusion_matrix$overall["Accuracy"]
+nb_prec             <- nb_confusion_matrix$byClass["Pos Pred Value"]
+nb_rec              <- nb_confusion_matrix$byClass["Sensitivity"]
+nb_f1               <- nb_confusion_matrix$byClass["F1"]
 
 print(paste(" Accuracy:", round(nb_acc, 3)))
 print(paste("Precision:", round(nb_prec, 3)))
@@ -51,7 +48,7 @@ print(paste("       F1:", round(nb_f1, 3)))
 
 
 # Exporting the model
-save(nb_model, file = "./models/classification/nb.rdata")
+save(nb_predictions, file = "./models/classification/nb.rdata")
 
 # Exporting the metrics
 log_file <- "./log/classification/nb.log"

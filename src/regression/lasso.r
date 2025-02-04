@@ -45,7 +45,7 @@ print(paste(" R2:", round(lasso_r2, 3)))
 
 
 # Exporting the model
-save(lasso_model, file = "./models/regression/lasso.rdata")
+save(lasso_predictions, file = "./models/regression/lasso.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/lasso.log"

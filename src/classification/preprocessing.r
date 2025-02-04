@@ -42,20 +42,16 @@ if (anyDuplicated(data)) {
 
 
 # Checking for outliers
-# Strategy: Remove outliers using IQR method
+# Strategy: Impute outliers using Standardization
 numeric_data <- data[, sapply(data, is.numeric)]
-q1 <- apply(numeric_data, 2, quantile, probs = 0.25, na.rm = TRUE)
-q3 <- apply(numeric_data, 2, quantile, probs = 0.75, na.rm = TRUE)
-iqr <- q3 - q1
-lower_bound <- q1 - 1.5 * iqr
-upper_bound <- q3 + 1.5 * iqr
-
 outliers_count <- 0
-for (col in names(data)) {
-  if (is.numeric(data[[col]])) {
-    outliers <- data[[col]] < lower_bound[col] | data[[col]] > upper_bound[col]
+
+for (col in names(numeric_data)) {
+  if (is.numeric(numeric_data[[col]])) {
+    z_scores <- scale(numeric_data[[col]], center = TRUE, scale = TRUE)
+    outliers <- abs(z_scores) > 3
     outliers_count <- outliers_count + sum(outliers)
-    data <- data[!outliers, ]
+    numeric_data[[col]][outliers] <- median(numeric_data[[col]], na.rm = TRUE)
   }
 }
 

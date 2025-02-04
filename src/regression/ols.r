@@ -42,7 +42,7 @@ print(paste(" R2:", round(ols_r2, 3)))
 
 
 # Exporting the model
-save(ols_model, file = "./models/regression/ols.rdata")
+save(ols_predictions, file = "./models/regression/ols.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/ols.log"
