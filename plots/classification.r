@@ -14,13 +14,12 @@ load("./models/classification/nnet.rdata")
 # ---------------------------------------------
 
 
-# Using an helper function
 plot_confusion_matrix <- function(title, model_name, model_predictions) {
   # Strategy: Confusion Matrix
   confusion_matrix      <- table(Actual = test$type,
                                  Predicted = model_predictions)
   hm                    <- as.data.frame(as.table(confusion_matrix))
-  confusion_matrix_plot <- ggplot(
+  print(ggplot(
     hm,
     aes(x = Predicted, y = Actual, fill = Freq)
   ) +
@@ -37,23 +36,22 @@ plot_confusion_matrix <- function(title, model_name, model_predictions) {
       axis.text.y = element_text(size = 16),
       axis.title.x = element_text(size = 20, margin = margin(t = 20, b = 20)),
       axis.title.y = element_text(size = 20, margin = margin(r = 20))
-    )
-  print(confusion_matrix_plot)
+    ))
 
-  # Strategy: Confusion Matrix
-  # ...
-
-  # Exporting the visualizations
+  # Exporting the visualization
   filename <- paste0("./docs/plots/classification/",
                      model_name,
                      "-confusion-matrix.png")
   ggsave(filename,
-         plot = confusion_matrix_plot,
          device = "png",
          width = 10,
          height = 8,
          dpi = 300)
 }
+
+
+# ---------------------------------------------
+
 
 # Plotting the visualizations
 plot_confusion_matrix("Logistic Regression Performance", "lr", lr_predictions)

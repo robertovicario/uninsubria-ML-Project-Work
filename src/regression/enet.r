@@ -3,7 +3,6 @@
 
 # Importing the libraries
 library(caret)
-library(glmnet)
 
 # Loading the preprocessed data
 load("./src/regression/preprocessing.rdata")
@@ -50,7 +49,7 @@ save(enet_predictions, file = "./models/regression/enet.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/enet.log"
-log_msg  <- paste("Elastic Net Regression:")
+log_msg  <- paste("Elastic Net:")
 log_msg  <- paste(log_msg, "\n    - MSE:", enet_mse)
 log_msg  <- paste(log_msg, "\n    -  R2:", enet_r2)
 cat("", file = log_file)

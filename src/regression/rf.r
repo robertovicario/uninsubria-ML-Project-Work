@@ -3,7 +3,6 @@
 
 # Importing the libraries
 library(caret)
-library(randomForest)
 
 # Loading the preprocessed data
 load("./src/regression/preprocessing.rdata")
@@ -53,7 +52,7 @@ save(rf_predictions, file = "./models/regression/rf.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/rf.log"
-log_msg  <- paste("Random Forest Regressor:")
+log_msg  <- paste("Random Forest:")
 log_msg  <- paste(log_msg, "\n    - MSE:", rf_mse)
 log_msg  <- paste(log_msg, "\n    -  R2:", rf_r2)
 cat("", file = log_file)
