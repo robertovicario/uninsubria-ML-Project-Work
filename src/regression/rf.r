@@ -9,6 +9,8 @@ load("./src/regression/preprocessing.rdata")
 
 
 # ---------------------------------------------
+# Training
+# ---------------------------------------------
 
 
 # Training the model
@@ -31,6 +33,8 @@ print(rf_model$bestTune)
 print(rf_model$finalModel)
 
 
+# ---------------------------------------------
+# Evaluation
 # ---------------------------------------------
 
 

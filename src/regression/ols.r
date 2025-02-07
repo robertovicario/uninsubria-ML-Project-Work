@@ -9,6 +9,8 @@ load("./src/regression/preprocessing.rdata")
 
 
 # ---------------------------------------------
+# Training
+# ---------------------------------------------
 
 
 # Training the model
@@ -26,6 +28,8 @@ print(ols_model$bestTune)
 print(ols_model$finalModel)
 
 
+# ---------------------------------------------
+# Evaluation
 # ---------------------------------------------
 
 

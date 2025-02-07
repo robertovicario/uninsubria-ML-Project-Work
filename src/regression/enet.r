@@ -9,6 +9,8 @@ load("./src/regression/preprocessing.rdata")
 
 
 # ---------------------------------------------
+# Training
+# ---------------------------------------------
 
 
 # Training the model
@@ -29,6 +31,8 @@ print(enet_model$bestTune)
 print(enet_model$finalModel)
 
 
+# ---------------------------------------------
+# Evaluation
 # ---------------------------------------------
 
 
