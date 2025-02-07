@@ -16,16 +16,17 @@ load("./src/regression/preprocessing.rdata")
 # Training the model
 # Strategy: Linear Regression, Cross-Validation
 ols_n_folds       <- 10
-ols_train_control <- trainControl(method = "cv", number = ols_n_folds)
+ols_train_control <- trainControl(method = "cv",
+                                  number = ols_n_folds,
+                                  verboseIter = TRUE)
+ols_grid          <- expand.grid(intercept = c(TRUE, FALSE))
 
 ols_model         <- train(MED.VALUE ~ .,
                            data = train,
                            method = "lm",
-                           trControl = ols_train_control)
+                           trControl = ols_train_control,
+                           tuneGrid = ols_grid)
 ols_predictions   <- predict(ols_model, newdata = test)
-
-print(ols_model$bestTune)
-print(ols_model$finalModel)
 
 
 # ---------------------------------------------
@@ -46,7 +47,7 @@ print(paste(" R2:", round(ols_r2, 3)))
 
 
 # Exporting the model
-save(ols_predictions, file = "./models/regression/ols.rdata")
+save(ols_model, ols_predictions, file = "./models/regression/ols.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/ols.log"

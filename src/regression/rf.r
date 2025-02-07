@@ -15,12 +15,11 @@ load("./src/regression/preprocessing.rdata")
 
 # Training the model
 # Strategy: Random Forest Regressor, Cross-Validation, Hyperparameter Tuning
-
 rf_n_folds       <- 10
 rf_train_control <- trainControl(method = "cv",
                                  number = rf_n_folds,
                                  verboseIter = TRUE)
-rf_grid          <- expand.grid(mtry = c(2, 3, 4, 5))
+rf_grid          <- expand.grid(mtry = seq(1, 10, by = 1))
 
 rf_model         <- train(MED.VALUE ~ .,
                           data = train,
@@ -29,8 +28,34 @@ rf_model         <- train(MED.VALUE ~ .,
                           tuneGrid = rf_grid)
 rf_predictions   <- predict(rf_model, newdata = test)
 
-print(rf_model$bestTune)
-print(rf_model$finalModel)
+
+# ---------------------------------------------
+# Learning Curve
+# ---------------------------------------------
+
+# Building the visualization
+print(ggplot(data.frame(Hyperparameter = rf_model$results$mtry,
+                        R2 = rf_model$results$Rsquared),
+             aes(x = Hyperparameter, y = R2)) +
+        ggtitle("Learning Curve of Random Forest") +
+        geom_point() +
+        geom_line() +
+        xlab("mtry") +
+        ylab("Performance") +
+        theme_bw() +
+        theme(plot.title = element_text(size = 16,
+                                        margin = margin(b = 20),
+                                        hjust = 0.5)))
+
+# Exporting the visualization
+filename <- paste0("./docs/plots/regression/",
+                   rf_model,
+                   "-learning_curve.png")
+ggsave(filename,
+       device = "png",
+       width = 10,
+       height = 6,
+       dpi = 300)
 
 
 # ---------------------------------------------

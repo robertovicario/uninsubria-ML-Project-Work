@@ -16,9 +16,11 @@ load("./src/regression/preprocessing.rdata")
 # Training the model
 # Strategy: Elastic Net Regression, Cross-Validation, Regularization
 enet_n_folds       <- 10
-enet_train_control <- trainControl(method = "cv", number = enet_n_folds)
-enet_grid          <- expand.grid(fraction = seq(0, 1, by = 0.1),
-                                  lambda = seq(0, 1, by = 0.1))
+enet_train_control <- trainControl(method = "cv",
+                                   number = enet_n_folds,
+                                   verboseIter = TRUE)
+enet_grid          <- expand.grid(lambda = seq(0, 1, by = 0.1),
+                                  fraction = seq(0, 1, by = 0.1))
 
 enet_model         <- train(MED.VALUE ~ .,
                             data = train,
@@ -26,9 +28,6 @@ enet_model         <- train(MED.VALUE ~ .,
                             trControl = enet_train_control,
                             tuneGrid = enet_grid)
 enet_predictions   <- predict(enet_model, newdata = test)
-
-print(enet_model$bestTune)
-print(enet_model$finalModel)
 
 
 # ---------------------------------------------
@@ -49,7 +48,7 @@ print(paste(" R2:", round(enet_r2, 3)))
 
 
 # Exporting the model
-save(enet_predictions, file = "./models/regression/enet.rdata")
+save(enet_model, enet_predictions, file = "./models/regression/enet.rdata")
 
 # Exporting the metrics
 log_file <- "./log/regression/enet.log"
