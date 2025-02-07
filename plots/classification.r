@@ -4,7 +4,7 @@
 # Importing the libraries
 library(ggplot2)
 
-# Loading the model
+# Loading the models
 load("./src/classification/preprocessing.rdata")
 load("./models/classification/lr.rdata")
 load("./models/classification/nb.rdata")
