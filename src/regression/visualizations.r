@@ -18,7 +18,6 @@ load("./models/regression/rf.rdata")
 
 
 # Building the visualization
-# Strategy: Heatmap
 corr_matrix <- cor(data)
 corr_melted <- melt(corr_matrix)
 
@@ -26,11 +25,11 @@ print(ggplot(corr_melted,
              aes(x = Var1,
                  y = Var2,
                  fill = value)) +
-  ggtitle("Boston Housing Prices Dataset Heatmap") +
+  ggtitle("Boston Housing Prices Dataset - Heatmap") +
   xlab("Var1") +
   ylab("Var2") +
   geom_tile() +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red") +
+  scale_fill_gradient2(low = "blue", mid = "lightgray", high = "red") +
   theme_bw() +
   theme(
     plot.title = element_text(size = 16,
@@ -40,7 +39,7 @@ print(ggplot(corr_melted,
   ))
 
 # Exporting the visualization
-filename <- "./docs/plots/regression/data-heatmap.png"
+filename <- "./docs/plots/regression/data_heatmap.png"
 ggsave(filename,
        device = "png",
        width = 10,
@@ -61,7 +60,7 @@ plot_scatterplot <- function(title, model_name, model_predictions) {
           ggtitle(title) +
           xlab("Actual") +
           ylab("Predicted") +
-          geom_point(color = "blue") +
+          geom_point(color = "steelblue") +
           geom_abline(intercept = 0, slope = 1, color = "red") +
           theme_bw() +
           theme(plot.title = element_text(size = 16,
@@ -71,7 +70,7 @@ plot_scatterplot <- function(title, model_name, model_predictions) {
   # Exporting the visualization
   filename <- paste0("./docs/plots/regression/",
                      model_name,
-                     "-scatterplot.png")
+                     "_scatterplot.png")
   ggsave(filename,
          device = "png",
          width = 10,
@@ -80,10 +79,15 @@ plot_scatterplot <- function(title, model_name, model_predictions) {
 }
 
 # Building the visualization
-# Strategy: Scatterplot
-plot_scatterplot("Linear Regression Scatterplot", "ols", ols_predictions)
-plot_scatterplot("Elastic Net Scatterplot", "enet", enet_predictions)
-plot_scatterplot("Random Forest Scatterplot", "rf", rf_predictions)
+plot_scatterplot("Linear Regression - Scatterplot",
+                 "ols",
+                 ols_predictions)
+plot_scatterplot("Elastic Net - Scatterplot",
+                 "enet",
+                 enet_predictions)
+plot_scatterplot("Random Forest - Scatterplot",
+                 "rf",
+                 rf_predictions)
 
 
 # ---------------------------------------------

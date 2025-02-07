@@ -11,9 +11,10 @@ data <- as.data.frame(spam)
 
 
 # ---------------------------------------------
+# Missings
+# ---------------------------------------------
 
 
-# Checking for missing values
 # Strategy: Impute missing values with median
 missings_count <- sum(is.na(data))
 cat("  Missings Count:", missings_count, "\n")
@@ -26,9 +27,10 @@ for (col in names(data)) {
 
 
 # ---------------------------------------------
+# Duplicates
+# ---------------------------------------------
 
 
-# Checking for duplicates
 # Strategy: Remove duplicates iteratively
 duplicated_count <- sum(duplicated(data))
 cat("Duplicated Count:", duplicated_count, "\n")
@@ -39,9 +41,10 @@ if (anyDuplicated(data)) {
 
 
 # ---------------------------------------------
+# Outliers
+# ---------------------------------------------
 
 
-# Checking for outliers
 # Strategy: Impute outliers using Standardization
 numeric_data <- data[, sapply(data, is.numeric)]
 outliers_count <- 0
@@ -59,9 +62,10 @@ cat("  Outliers Count:", outliers_count, "\n")
 
 
 # ---------------------------------------------
+# Data Splitting
+# ---------------------------------------------
 
 
-# Splitting the data
 # Strategy: 80 training, 20 testing
 set.seed(123)
 train_percent <- 0.8

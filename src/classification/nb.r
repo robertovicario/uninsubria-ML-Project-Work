@@ -9,15 +9,18 @@ load("./src/classification/preprocessing.rdata")
 
 
 # ---------------------------------------------
+# Training
+# ---------------------------------------------
 
 
-# Training the model
 # Strategy: Naive Bayes, Cross-Validation, Hyperparameter Tuning
 nb_n_folds       <- 10
-nb_train_control <- trainControl(method = "cv", number = nb_n_folds)
+nb_train_control <- trainControl(method = "cv",
+                                 number = nb_n_folds,
+                                 verboseIter = TRUE)
 nb_grid          <- expand.grid(fL = c(0, 0.5, 1),
-                                usekernel = c(TRUE, FALSE),
-                                adjust = c(1, 1.5, 2))
+                                usekernel = c(FALSE, TRUE),
+                                adjust = c(0, 0.5, 1))
 
 nb_model         <- train(type ~ .,
                           data = train,
@@ -28,9 +31,10 @@ nb_predictions   <- predict(nb_model, newdata = test)
 
 
 # ---------------------------------------------
+# Evaluation
+# ---------------------------------------------
 
 
-# Evaluating the model
 # Strategy: Accuracy, Precision, Recall, F1
 nb_confusion_matrix <- confusionMatrix(nb_predictions, test$type)
 nb_acc              <- nb_confusion_matrix$overall["Accuracy"]

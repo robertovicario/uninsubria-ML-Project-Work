@@ -9,27 +9,31 @@ load("./src/classification/preprocessing.rdata")
 
 
 # ---------------------------------------------
+# Training
+# ---------------------------------------------
 
 
-# Training the model
 # Strategy: Neural Network, Cross-Validation, Hyperparameter Tuning
 nnet_n_folds       <- 10
-nnet_train_control <- trainControl(method = "cv", number = nnet_n_folds)
-nnet_grid          <- expand.grid(size = c(5, 10, 15), decay = c(0.1, 0.5, 1.0))
+nnet_train_control <- trainControl(method = "cv",
+                                   number = nnet_n_folds,
+                                   verboseIter = TRUE)
+nnet_grid          <- expand.grid(size = c(5, 10, 15),
+                                  decay = c(0.1, 0.5, 1.0))
 
 nnet_model         <- train(type ~ .,
                             data = train,
                             method = "nnet",
                             trControl = nnet_train_control,
-                            tuneGrid = nnet_grid,
-                            linout = FALSE)
+                            tuneGrid = nnet_grid)
 nnet_predictions   <- predict(nnet_model, newdata = test)
 
 
 # ---------------------------------------------
+# Evaluation
+# ---------------------------------------------
 
 
-# Evaluating the model
 # Strategy: Accuracy, Precision, Recall, F1
 net_confusion_matrix <- confusionMatrix(nnet_predictions, test$type)
 nnet_acc             <- net_confusion_matrix$overall["Accuracy"]
@@ -51,7 +55,7 @@ save(nnet_predictions, file = "./models/classification/nnet.rdata")
 
 # Exporting the metrics
 log_file <- "./log/classification/nnet.log"
-log_msg  <- paste("Multi-Layer Perceptron:")
+log_msg  <- paste("Neural Network:")
 log_msg  <- paste(log_msg, "\n    -  Accuracy:", nnet_acc)
 log_msg  <- paste(log_msg, "\n    - Precision:", nnet_prec)
 log_msg  <- paste(log_msg, "\n    -    Recall:", nnet_rec)

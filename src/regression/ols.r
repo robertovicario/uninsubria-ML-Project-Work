@@ -13,7 +13,6 @@ load("./src/regression/preprocessing.rdata")
 # ---------------------------------------------
 
 
-# Training the model
 # Strategy: Linear Regression, Cross-Validation
 ols_n_folds       <- 10
 ols_train_control <- trainControl(method = "cv",
@@ -34,7 +33,6 @@ ols_predictions   <- predict(ols_model, newdata = test)
 # ---------------------------------------------
 
 
-# Evaluating the model
 # Strategy: MSE, R2
 ols_mse <- mean((ols_predictions - test$MED.VALUE)^2)
 ols_r2  <- cor(ols_predictions, test$MED.VALUE)^2

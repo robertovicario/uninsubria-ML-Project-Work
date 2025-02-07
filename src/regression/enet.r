@@ -13,7 +13,6 @@ load("./src/regression/preprocessing.rdata")
 # ---------------------------------------------
 
 
-# Training the model
 # Strategy: Elastic Net Regression, Cross-Validation, Regularization
 enet_n_folds       <- 10
 enet_train_control <- trainControl(method = "cv",
@@ -35,7 +34,6 @@ enet_predictions   <- predict(enet_model, newdata = test)
 # ---------------------------------------------
 
 
-# Evaluating the model
 # Strategy: MSE, R2
 enet_mse <- mean((enet_predictions - test$MED.VALUE)^2)
 enet_r2  <- cor(enet_predictions, test$MED.VALUE)^2

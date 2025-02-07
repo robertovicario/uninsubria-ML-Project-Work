@@ -9,14 +9,17 @@ load("./src/classification/preprocessing.rdata")
 
 
 # ---------------------------------------------
+# Training
+# ---------------------------------------------
 
 
-# Training the model
 # Strategy: Logistic Regression, Cross-Validation, Hyperparameter Tuning
 lr_n_folds       <- 10
-lr_train_control <- trainControl(method = "cv", number = lr_n_folds)
+lr_train_control <- trainControl(method = "cv",
+                                 number = lr_n_folds,
+                                 verboseIter = TRUE)
 lr_grid          <- expand.grid(alpha = c(0, 0.5, 1),
-                                lambda = 10^seq(-4, 1, by = 10))
+                                lambda = c(0, 0.5, 1))
 
 lr_model         <- train(type ~ .,
                           data = train,
@@ -27,6 +30,8 @@ lr_model         <- train(type ~ .,
 lr_predictions   <- predict(lr_model, newdata = test)
 
 
+# ---------------------------------------------
+# Evaluation
 # ---------------------------------------------
 
 

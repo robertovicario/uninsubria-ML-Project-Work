@@ -12,39 +12,43 @@ load("./models/classification/nnet.rdata")
 
 
 # ---------------------------------------------
+# Confusion Matrix
+# ---------------------------------------------
 
 
 plot_confusion_matrix <- function(title, model_name, model_predictions) {
-  # Strategy: Confusion Matrix
-  confusion_matrix      <- table(Actual = test$type,
-                                 Predicted = model_predictions)
-  hm                    <- as.data.frame(as.table(confusion_matrix))
-  print(ggplot(
-    hm,
-    aes(x = Predicted, y = Actual, fill = Freq)
-  ) +
+  cm       <- table(Actual = test$type, Predicted = model_predictions)
+  cm       <- as.data.frame(cm)
+  print(ggplot(cm,
+               aes(x = Actual,
+                   y = Predicted,
+                   fill = Freq)) +
     ggtitle(title) +
+    xlab("Actual") +
+    ylab("Predicted") +
     geom_tile() +
-    theme_bw() +
-    coord_equal() +
     scale_fill_distiller(palette = "Blues", direction = 1) +
-    guides(fill = FALSE) +
     geom_text(aes(label = Freq), size = 10) +
+    theme_bw() +
     theme(
-      plot.title = element_text(size = 24, margin = margin(t = 20, b = 32)),
+      plot.title = element_text(size = 16,
+                                margin = margin(b = 32),
+                                hjust = 0.5),
       axis.text.x = element_text(size = 16),
       axis.text.y = element_text(size = 16),
-      axis.title.x = element_text(size = 20, margin = margin(t = 20, b = 20)),
-      axis.title.y = element_text(size = 20, margin = margin(r = 20))
+      axis.title.x = element_text(size = 20,
+                                  margin = margin(t = 20, b = 20)),
+      axis.title.y = element_text(size = 20,
+                                  margin = margin(r = 20))
     ))
 
   # Exporting the visualization
   filename <- paste0("./docs/plots/classification/",
                      model_name,
-                     "-confusion-matrix.png")
+                     "_confusion_matrix.png")
   ggsave(filename,
          device = "png",
-         width = 10,
+         width = 6,
          height = 6,
          dpi = 300)
 }
@@ -54,9 +58,15 @@ plot_confusion_matrix <- function(title, model_name, model_predictions) {
 
 
 # Plotting the visualizations
-plot_confusion_matrix("Logistic Regression Performance", "lr", lr_predictions)
-plot_confusion_matrix("Naïve Bayes Performance", "nb", nb_predictions)
-plot_confusion_matrix("Neural Network Performance", "nnet", nnet_predictions)
+plot_confusion_matrix("Naïve Bayes - Confusion Matrix",
+                      "nb",
+                      nb_predictions)
+plot_confusion_matrix("Logistic Regression - Confusion Matrix",
+                      "lr",
+                      lr_predictions)
+plot_confusion_matrix("Neural Network - Confusion Matrix",
+                      "nnet",
+                      nnet_predictions)
 
 
 # ---------------------------------------------
