@@ -45,7 +45,7 @@ plot_confusion_matrix <- function(title, model_name, model_predictions) {
   ggsave(filename,
          device = "png",
          width = 10,
-         height = 8,
+         height = 6,
          dpi = 300)
 }
 
