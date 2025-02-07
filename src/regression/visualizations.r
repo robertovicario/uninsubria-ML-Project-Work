@@ -18,13 +18,17 @@ load("./models/regression/rf.rdata")
 
 
 # Building the visualization
+# Strategy: Heatmap
 corr_matrix <- cor(data)
 corr_melted <- melt(corr_matrix)
+
 print(ggplot(corr_melted,
              aes(x = Var1,
                  y = Var2,
                  fill = value)) +
-  ggtitle("Heatmap of Boston Housing Prices Dataset") +
+  ggtitle("Boston Housing Prices Dataset Heatmap") +
+  xlab("Var1") +
+  ylab("Var2") +
   geom_tile() +
   scale_fill_gradient2(low = "blue", mid = "white", high = "red") +
   theme_bw() +
@@ -54,9 +58,11 @@ plot_scatterplot <- function(title, model_name, model_predictions) {
                           Predicted = model_predictions),
                aes(x = Actual,
                    y = Predicted)) +
-          geom_point() +
+          ggtitle(title) +
+          xlab("Actual") +
+          ylab("Predicted") +
+          geom_point(color = "blue") +
           geom_abline(intercept = 0, slope = 1, color = "red") +
-          labs(title = title, x = "Actual", y = "Predicted") +
           theme_bw() +
           theme(plot.title = element_text(size = 16,
                                           margin = margin(b = 32),
@@ -74,6 +80,7 @@ plot_scatterplot <- function(title, model_name, model_predictions) {
 }
 
 # Building the visualization
+# Strategy: Scatterplot
 plot_scatterplot("Linear Regression Scatterplot", "ols", ols_predictions)
 plot_scatterplot("Elastic Net Scatterplot", "enet", enet_predictions)
 plot_scatterplot("Random Forest Scatterplot", "rf", rf_predictions)

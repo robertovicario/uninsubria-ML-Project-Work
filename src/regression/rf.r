@@ -33,24 +33,27 @@ rf_predictions   <- predict(rf_model, newdata = test)
 # Learning Curve
 # ---------------------------------------------
 
+
 # Building the visualization
-print(ggplot(data.frame(Hyperparameter = rf_model$results$mtry,
-                        R2 = rf_model$results$Rsquared),
-             aes(x = Hyperparameter, y = R2)) +
-        ggtitle("Learning Curve of Random Forest") +
-        geom_point() +
-        geom_line() +
+# Strategy: Learning Curve
+rf_results <- rf_model$results
+print(ggplot(data.frame(Hyperparameter = rf_results$mtry,
+                        R2 = rf_results$Rsquared),
+             aes(x = Hyperparameter,
+                 y = R2)) +
+        ggtitle("Random Forest Learning Curve") +
         xlab("mtry") +
-        ylab("Performance") +
+        ylab("R2") +
+        scale_x_continuous(breaks = unique(rf_results$mtry)) +
+        geom_point(color = "darkgreen") +
+        geom_line(color = "darkgreen") +
         theme_bw() +
         theme(plot.title = element_text(size = 16,
                                         margin = margin(b = 20),
                                         hjust = 0.5)))
 
 # Exporting the visualization
-filename <- paste0("./docs/plots/regression/",
-                   rf_model,
-                   "-learning_curve.png")
+filename <- "./docs/plots/regression/rf-learning_curve.png"
 ggsave(filename,
        device = "png",
        width = 10,
