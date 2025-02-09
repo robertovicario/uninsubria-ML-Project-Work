@@ -9,13 +9,16 @@ library(caret)
 data(housing)
 data <- as.data.frame(housing)
 
+# Counting all samples
+samples_count <- nrow(data)
+cat("   Samples Count:", samples_count, "\n")
+
 
 # ---------------------------------------------
 # Missings
 # ---------------------------------------------
 
 
-# Checking for missing values
 # Strategy: Impute missing values with median
 missings_count <- sum(is.na(data))
 cat("  Missings Count:", missings_count, "\n")
@@ -32,10 +35,9 @@ for (col in names(data)) {
 # ---------------------------------------------
 
 
-# Checking for duplicates
 # Strategy: Remove duplicates iteratively
-duplicated_count <- sum(duplicated(data))
-cat("Duplicated Count:", duplicated_count, "\n")
+duplicates_count <- sum(duplicated(data))
+cat("Duplicates Count:", duplicates_count, "\n")
 
 if (anyDuplicated(data)) {
   data <- data[!duplicated(data), ]
@@ -47,7 +49,6 @@ if (anyDuplicated(data)) {
 # ---------------------------------------------
 
 
-# Checking for outliers
 # Strategy: Remove outliers using Cook's distance
 model          <- lm(data$MED.VALUE ~ ., data = data)
 cooks_distance <- cooks.distance(model)
@@ -65,7 +66,6 @@ if (any(influential)) {
 # ---------------------------------------------
 
 
-# Splitting the data
 # Strategy: 80 training, 20 testing
 set.seed(123)
 train_percent <- 0.8
@@ -78,6 +78,16 @@ test          <- data[-train_index, ]
 
 # ---------------------------------------------
 
+
+# Exporting the metrics
+log_file <- "./log/regression/preprocessing.log"
+log_msg  <- paste("Preprocessing:")
+log_msg  <- paste(log_msg, "\n    -    Samples Count:", samples_count)
+log_msg  <- paste(log_msg, "\n    -   Missings Count:", missings_count)
+log_msg  <- paste(log_msg, "\n    - Duplicates Count:", duplicated_count)
+log_msg  <- paste(log_msg, "\n    -   Outliers Count:", outliers_count)
+cat("", file = log_file)
+cat(log_msg, file = log_file, append = TRUE)
 
 # Exporting the preprocessed data
 save(data, train, test, file = "./src/regression/preprocessing.rdata")

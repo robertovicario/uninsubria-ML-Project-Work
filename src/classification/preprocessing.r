@@ -9,6 +9,10 @@ library(kernlab)
 data(spam)
 data <- as.data.frame(spam)
 
+# Counting all samples
+samples_count <- nrow(data)
+cat("   Samples Count:", samples_count, "\n")
+
 
 # ---------------------------------------------
 # Missings
@@ -32,8 +36,8 @@ for (col in names(data)) {
 
 
 # Strategy: Remove duplicates iteratively
-duplicated_count <- sum(duplicated(data))
-cat("Duplicated Count:", duplicated_count, "\n")
+duplicates_count <- sum(duplicated(data))
+cat("Duplicates Count:", duplicates_count, "\n")
 
 if (anyDuplicated(data)) {
   data <- data[!duplicated(data), ]
@@ -78,6 +82,16 @@ test          <- data[-train_index, ]
 
 # ---------------------------------------------
 
+
+# Exporting the metrics
+log_file <- "./log/classification/preprocessing.log"
+log_msg  <- paste("Preprocessing:")
+log_msg  <- paste(log_msg, "\n    -    Samples Count:", samples_count)
+log_msg  <- paste(log_msg, "\n    -   Missings Count:", missings_count)
+log_msg  <- paste(log_msg, "\n    - Duplicates Count:", duplicated_count)
+log_msg  <- paste(log_msg, "\n    -   Outliers Count:", outliers_count)
+cat("", file = log_file)
+cat(log_msg, file = log_file, append = TRUE)
 
 # Exporting the preprocessed data
 save(data, train, test, file = "./src/classification/preprocessing.rdata")
