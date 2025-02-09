@@ -49,9 +49,9 @@ if (anyDuplicated(data)) {
 
 # Checking for outliers
 # Strategy: Remove outliers using Cook's distance
-model <- lm(data$MED.VALUE ~ ., data = data)
+model          <- lm(data$MED.VALUE ~ ., data = data)
 cooks_distance <- cooks.distance(model)
-influential <- cooks_distance > (4 / nrow(data))
+influential    <- cooks_distance > (4 / nrow(data))
 outliers_count <- sum(influential)
 cat("  Outliers Count:", outliers_count, "\n")
 
@@ -69,11 +69,11 @@ if (any(influential)) {
 # Strategy: 80 training, 20 testing
 set.seed(123)
 train_percent <- 0.8
-train_index <- createDataPartition(data$MED.VALUE,
-                                   p = train_percent,
-                                   list = FALSE)
-train <- data[train_index, ]
-test <- data[-train_index, ]
+train_index   <- createDataPartition(data$MED.VALUE,
+                                     p = train_percent,
+                                     list = FALSE)
+train         <- data[train_index, ]
+test          <- data[-train_index, ]
 
 
 # ---------------------------------------------

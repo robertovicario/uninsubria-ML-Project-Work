@@ -46,13 +46,13 @@ if (anyDuplicated(data)) {
 
 
 # Strategy: Impute outliers using Standardization
-numeric_data <- data[, sapply(data, is.numeric)]
+numeric_data   <- data[, sapply(data, is.numeric)]
 outliers_count <- 0
 
 for (col in names(numeric_data)) {
   if (is.numeric(numeric_data[[col]])) {
-    z_scores <- scale(numeric_data[[col]], center = TRUE, scale = TRUE)
-    outliers <- abs(z_scores) > 3
+    z_scores       <- scale(numeric_data[[col]], center = TRUE, scale = TRUE)
+    outliers       <- abs(z_scores) > 3
     outliers_count <- outliers_count + sum(outliers)
     numeric_data[[col]][outliers] <- median(numeric_data[[col]], na.rm = TRUE)
   }
@@ -69,11 +69,11 @@ cat("  Outliers Count:", outliers_count, "\n")
 # Strategy: 80 training, 20 testing
 set.seed(123)
 train_percent <- 0.8
-train_index <- createDataPartition(data$type,
-                                   p = train_percent,
-                                   list = FALSE)
-train <- data[train_index, ]
-test <- data[-train_index, ]
+train_index   <- createDataPartition(data$type,
+                                     p = train_percent,
+                                     list = FALSE)
+train         <- data[train_index, ]
+test          <- data[-train_index, ]
 
 
 # ---------------------------------------------
